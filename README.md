@@ -10,9 +10,21 @@ source venv/bin/activate
 C:\\{chemin d'accès au dossier venv}\\Scripts\\activate.bat
 ```
 
-## Configuration du projet
+On peut ensuite installer en local les dépendances.
 
-Pour l'API, il est nécessaire d'avoir 
+```
+pip install -r requirements.txt
+```
+
+Et il ne reste plus qu'à lancer l'API.
+
+```
+python3 app.py
+```
+
+## Déploiement de l'API
+
+Pour déployer l'API, il est nécessaire d'avoir Git d'installé et d'avoir un compte Heroku.
 
 ```
 git init
@@ -27,23 +39,8 @@ Nous pouvons ensuite créer un nouveau projet Heroku.
 heroku create
 ```
 
-Puis il ne reste plus qu'à faire un `push`.
+Cela va configurer automatiquement le projet avec Heroku. Il ne reste plus qu'à faire un `push`.
 
 ```
-git push heroku main
-```
-
-## Dépendances
-
-### En local
-
-Pour tester l'API en local, il faut tout d'abord créer un environnement virtuel.
-
-```
-python3 -m venv venv
-source venv/bin/activate
-```
-
-```
-npm install --save serverless-python-requirements serverless-wsgi
+git push heroku master
 ```
