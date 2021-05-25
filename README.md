@@ -44,3 +44,10 @@ Cela va configurer automatiquement le projet avec Heroku. Il ne reste plus qu'à
 ```
 git push heroku master
 ```
+
+## Configuration MLFlow
+
+Pour utiliser MLFlow avec Google Cloud, il faut configurer une clé d'accès GCP. Pour cela, on ajoute le buildpack `https://github.com/gerywahyunugraha/heroku-google-application-credentials-buildpack` sur les paramères Heroku et l'on configure deux Config Vars.
+
+- `GOOGLE_APPLICATION_CREDENTIALS` dont la valeur est `google-credentials.json`.
+- `GOOGLE_APPLICATION` dont la valeur est le contenu de la clé de compte de service.
