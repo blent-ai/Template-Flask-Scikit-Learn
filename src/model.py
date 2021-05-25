@@ -1,6 +1,9 @@
 import re
 import joblib
 import pandas as pd
+import mlflow
+
+from mlflow.tracking import MlflowClient
 
 model = None
 avg_price = None
@@ -23,13 +26,22 @@ TRUE_COLUMNS = ['wheelbase', 'curbweight', 'enginesize', 'boreratio', 'horsepowe
        'cylindernumber_twelve', 'cylindernumber_two',
        'company_price_medium', 'company_price_high']
 
+mlflow.set_tracking_uri("http://35.205.12.86/")
+mlflow.set_experiment("car_prediction")
+
+mlflow_client = MlflowClient()
+
 def load_artifacts():
     global model
     global avg_price
     global dummies
-    model = joblib.load("data/model.pkl")
-    avg_price = pd.read_csv("data/avg_price.csv")
-    with open("data/dummies_cols.txt", "r") as f:
+    # On récupère le premier run (le plus récent)
+    run_id = mlflow.list_run_infos("1")[0].run_id
+    mlflow_client.download_artifacts(run_id, "process/", "/tmp/")
+
+    model = mlflow.sklearn.load_model("runs:/{}/model".format(run_id))
+    avg_price = pd.read_csv("/tmp/process/avg_price.csv")
+    with open("/tmp/process/dummies_cols.txt", "r") as f:
         dummies = f.read().split(",")
 
 def transform(data):
